@@ -1,10 +1,16 @@
-package com.diegoviana.passin.event;
+package com.diegoviana.passin.domain.attendee;
+
+import java.time.LocalDate;
+
+import com.diegoviana.passin.domain.event.Event;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,26 +18,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="event")
+@Table(name="attendee") 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event {
+public class Attendee {
     @Id
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    private String details;
+    private String email;
 
-    @Column(nullable = false, unique = true)
-    private String slug;
+    @ManyToOne
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
 
-    @Column(nullable = false, name = "maximum_attendees")
-    private Integer maximumAttendees;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+    
 }
